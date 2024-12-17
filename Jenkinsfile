@@ -1,9 +1,9 @@
 pipeline {
 
-    agent { label "master" }
+    agent any
 
-    tools {
-        maven 'Maven-LATEST'
+    triggers {
+            githubPush()
     }
 
     stages {
