@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage ('test') {
             steps {
-                sh 'mvn clean compile test'
+                dir("prueba-tecnica-cobre"){
+                    sh "mvn clean test -Dtest=GeneralRunner -Dtest-suite=acceptance -DwithTags='acceptance'"
+                }
             }
         }
         stage ('Build application') {
