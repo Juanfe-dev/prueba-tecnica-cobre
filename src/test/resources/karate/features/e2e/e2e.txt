@@ -1,0 +1,1 @@
+En este directorio se destinan los features correspondientes a flujos e2e

@@ -1,0 +1,1 @@
+En este directorio se incluyen los runners correspondientes a flujos e2e
