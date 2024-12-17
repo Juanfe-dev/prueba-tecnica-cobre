@@ -1,33 +1,35 @@
 pipeline {
-    agent any
 
-    triggers {
-        githubPush()
+    agent { label "master" }
+
+    tools {
+        maven 'Maven-LATEST'
     }
 
     stages {
-        stage('Checkout') {
+
+        stage('Maven build') {
             steps {
-                git 'https://github.com/Juanfe-dev/prueba-tecnica-cobre.git'
+                sh "mvn clean install -DskipTests"
             }
         }
 
-        stage('Install dependencies') {
+        stage('test') {
             steps {
-                bat 'mvn clean install -DskipTests'
+                script {
+                    sh "mvn clean test -Dtest=GeneralRunner -Dtest-suite=acceptance -DwithTags=EditCSV"
+                }
             }
         }
 
-        stage('Run Tests') {
+        stage('generate reports') {
             steps {
-                bat 'mvn clean test -Dtest=GeneralRunner -Dtest-suite=acceptance -DwithTags=EditCSV'
+                cucumber buildStatus: "UNSTABLE",
+                fileIncludePattern: "**/*.html",
+                jsonReportDirectory: "target/cucumber-html-reports"
             }
         }
 
-       stage('Publish Cucumber Reports') {
-           steps {
-               cucumber buildStatus: 'UNSTABLE', jsonReportDirectory: 'target/cucumber-html-reports'
-           }
-       }
     }
+
 }
