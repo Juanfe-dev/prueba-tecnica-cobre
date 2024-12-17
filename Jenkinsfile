@@ -14,13 +14,13 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                bat 'mvn clean install -DskipTests'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'mvn clean test -Dtest=GeneralRunner -Dtest-suite=acceptance -DwithTags=EditCSV'
+                bat 'mvn clean test -Dtest=GeneralRunner -Dtest-suite=acceptance -DwithTags=EditCSV'
             }
         }
 
