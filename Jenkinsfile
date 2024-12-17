@@ -1,22 +1,33 @@
 pipeline {
-    agent { label 'master' }
+    agent any
+
+    triggers {
+        gitPush()
+    }
+
     stages {
-        stage ('test') {
+        stage('Checkout') {
             steps {
-                dir("prueba-tecnica-cobre"){
-                    sh "mvn clean test -Dtest=GeneralRunner -Dtest-suite=acceptance -DwithTags='acceptance'"
-                }
+                git 'https://github.com/Juanfe-dev/prueba-tecnica-cobre.git'
             }
         }
-        stage ('Build application') {
+
+        stage('Install dependencies') {
             steps {
-                echo 'mvn clean install -Dmaven.test.skip=true'
+                sh 'mvn clean install -DskipTests'
             }
         }
-        stage ('Create docker image') {
+
+        stage('Run Tests') {
             steps {
-                echo 'creando docker'
+                sh 'mvn clean test -Dtest=GeneralRunner -Dtest-suite=acceptance -DwithTags=EditCSV'
             }
         }
+
+       stage('Publish Cucumber Reports') {
+           steps {
+               cucumber buildStatus: 'UNSTABLE', jsonReportDirectory: 'target/cucumber-html-reports'
+           }
+       }
     }
 }

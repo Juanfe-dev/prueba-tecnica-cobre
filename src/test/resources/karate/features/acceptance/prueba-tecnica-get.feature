@@ -1,27 +1,27 @@
 Feature: sample karate test script
 
   Background:
-    * configure retry = {count: 3, interval: 3000}
-    * def noveltyUuid = java.util.UUID.randomUUID().toString()
-    # La clase S3Util se encuentra en un gestor de librerías externo al proyecto
-    # Imaginemos que esta clase contiene la configuración y conexión de un cliente AWS, además los métodos para subir archivos a buckets S3
-    # También contiene un método para verificar si un archivo se encuentra dentro de un folder
-    * def S3Manager = Java.type('co.cobre.lib.qa.aws.S3Util')
-    * def S3ManagerInstance = new S3Manager()
-    * def SQSManager = karate.callSingle('classpath:karate/utilities/sqs/instances-sqs.js.js')
-    * def waitTime = function(seconds) { java.lang.Thread.sleep(seconds * 1000) }
-    # La clase FileUtils se encuentra en un gestor de librerías externo al proyecto
-    # Imaginemos que esta clase contiene métodos para tomar un archivo, renombrarlo y copiarlo en otra ruta
-    * def FileUtils = Java.type('co.cobre.lib.qa.util.FileUtils')
-    * def bucketName = 'test-automation-qa'
-    * def folderRecaudoFiles = 'files-to-cash-in'
+#    * configure retry = {count: 3, interval: 3000}
+#    * def noveltyUuid = java.util.UUID.randomUUID().toString()
+#    # La clase S3Util se encuentra en un gestor de librerías externo al proyecto
+#    # Imaginemos que esta clase contiene la configuración y conexión de un cliente AWS, además los métodos para subir archivos a buckets S3
+#    # También contiene un método para verificar si un archivo se encuentra dentro de un folder
+#    * def S3Manager = Java.type('co.cobre.lib.qa.aws.S3Util')
+#    * def S3ManagerInstance = new S3Manager()
+#    * def SQSManager = karate.callSingle('classpath:karate/utilities/sqs/instances-sqs.js.js')
+#    * def waitTime = function(seconds) { java.lang.Thread.sleep(seconds * 1000) }
+#    # La clase FileUtils se encuentra en un gestor de librerías externo al proyecto
+#    # Imaginemos que esta clase contiene métodos para tomar un archivo, renombrarlo y copiarlo en otra ruta
+#    * def FileUtils = Java.type('co.cobre.lib.qa.util.FileUtils')
+#    * def bucketName = 'test-automation-qa'
+#    * def folderRecaudoFiles = 'files-to-cash-in'
 
   #   Este escenario esta destinado a mostrar la implementacion de la lectura y edicion del archivo CSV
   #   Esta implementacion puede ser adaptada a cualquier escenario en particular que requiera hacer ese proceso
   #   Por ejemplo modificar un CSV basado en la respuesta de una peticion HTTP
   @EditCSV
   Scenario Outline: Dado que tengo el documento del cliente, puedo modificar alguno de sus datos en el CSV
-    * def random = read("classpath:karate/uilities/random/get-random-day.js")
+    * def random = read("classpath:karate/utilities/random/get-random-day.js")
     * def randomDay = random(1,30)
     * def CsvEditor = Java.type('karate.CSVEditor')
     * def filePath = '<currentFilePath>'+'<currentFileName>'
